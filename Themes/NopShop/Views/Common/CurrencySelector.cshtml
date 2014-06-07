@@ -17,26 +17,30 @@
     @*@Html.DropDownList("customerCurrency", currencies, new { onchange = "setLocation(this.value);" })*@
 
 
-
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">
-            @foreach(var just_currency in currencies)
-            {
-                if(just_currency.Selected==true)
+    <div class="selector-dropdown">
+        <div class="btn-group">
+            <span>
+                <div type="button" class="btn btn-sm">Currency : 
+                    <span class="selected-val">
+                        @foreach (var just_currency in currencies)
+                        {
+                            if(just_currency.Selected==true)
+                            {
+                                @just_currency.Text
+                            }
+                        }
+                    </span>
+                </div>
+                <div class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </div>
+            </span>
+            <ul class="dropdown-menu box-dropdown-menu">
+                @foreach (var currency in currencies)
                 {
-                    @just_currency.Text
+                    <li class="btn-sm"><a href="@currency.Value">@currency.Text</a></li>
                 }
-            }
-            <i class="fa fa-angle-down"></i>
-        </a>
-        <ul class="dropdown-menu" >
-        
-            @foreach(var currency in currencies)
-            {
-                <li><a href="@currency.Value" >@currency.Text</a></li>
-            
-            }     
-
-        </ul>
-    </li>
+            </ul>
+        </div>
+    </div>
 }
