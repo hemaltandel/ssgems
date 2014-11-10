@@ -5,16 +5,24 @@
      var supportRtl = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Rtl;
     if (supportRtl)
     {
-         Html.AppendCssFileParts("~/Themes/NopShop/Content/styles.rtl.css");
-         Html.AppendCssFileParts("~/Themes/NopShop/Content/styles.css");
-         Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap-3.0.2/css/bootstrap.rtl.css"); 
+         //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.rtl.css");
+         //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom-style.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-color.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-style.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/plugins/flag-icon-css/css/flag-icon.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap/css/bootstrap.rtl.css"); 
          Html.AppendCssFileParts("~/Themes/NopShop/Content/font-awosome-3/css/font-awesome.rtl.css");
-        Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+         Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
     }
     else
     {
-        Html.AppendCssFileParts("~/Themes/NopShop/Content/styles.css");
-        Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap-3.0.2/css/bootstrap.css");
+        //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom-style.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-color.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-style.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/plugins/flag-icon-css/css/flag-icon.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap/css/bootstrap.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/font-awosome-3/css/font-awesome.css");
         Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
     }

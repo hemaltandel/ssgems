@@ -1,7 +1,10 @@
 ﻿@model OrderModel
-@if (Model.IsShippable && Model.ShippingAddress != null)
+@if (Model.IsShippable)
 {
     <table class="adminContent">
+        @if (Model.IsShippable && Model.ShippingAddress != null)
+        {
+            
         <tr>
             <td class="adminTitle">
                 @Html.NopLabelFor(model => model.ShippingAddress):
@@ -144,6 +147,7 @@
                 </div>
             </td>
         </tr>
+        }
         <tr>
             <td class="adminTitle">
                 @Html.NopLabelFor(model => model.ShippingMethod):
@@ -315,6 +319,10 @@
                                     field: "ProductName",
                                     title: "@T("Admin.Orders.Shipments.Products.ProductName")",
                                     width: 400
+                                },{
+                                    field: "Warehouse",
+                                    title: "@T("Admin.Orders.Shipments.Products.Warehouse")",
+                                    width: 150
                                 },{
                                     field: "QuantityInThisShipment",
                                     title: "@T("Admin.Orders.Shipments.Products.QtyShipped")",

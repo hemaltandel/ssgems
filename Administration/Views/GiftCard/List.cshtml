@@ -1,6 +1,7 @@
 ﻿@model GiftCardListModel
 @{
-    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
 
     //page title
     ViewBag.Title = T("Admin.GiftCards").Text;
@@ -31,6 +32,14 @@
             </td>
             <td class="adminData">
                 @Html.EditorFor(model => model.CouponCode)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.RecipientName):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.RecipientName)
             </td>
         </tr>
         <tr>
@@ -69,13 +78,14 @@
                                     // Cancel the changes
                                     this.cancelChanges();
                                 },
-                                pageSize: @(gridPageSize),
+                                pageSize: @(defaultGridPageSize),
                                 serverPaging: true,
                                 serverFiltering: true,
                                 serverSorting: true
                             },
                             pageable: {
-                                refresh: true
+                                refresh: true,
+                                pageSizes: [@(gridPageSizes)]
                             },
                             editable: {
                                 confirmation: false,
@@ -91,6 +101,9 @@
                             }, {
                                 field: "GiftCardCouponCode",
                                 title: "@T("Admin.GiftCards.Fields.GiftCardCouponCode")"
+                            }, {
+                                field: "RecipientName",
+                                title: "@T("Admin.GiftCards.Fields.RecipientName")"
                             }, {
                                 field: "IsGiftCardActivated",
                                 title: "@T("Admin.GiftCards.Fields.IsGiftCardActivated")",
@@ -136,7 +149,8 @@
                     function additionalData() {
                         return {
                             ActivatedId: $('#@Html.FieldIdFor(model => model.ActivatedId)').val(),
-                            CouponCode: $('#@Html.FieldIdFor(model => model.CouponCode)').val()
+                            CouponCode: $('#@Html.FieldIdFor(model => model.CouponCode)').val(),
+                            RecipientName: $('#@Html.FieldIdFor(model => model.RecipientName)').val()
                         };
                     }
 

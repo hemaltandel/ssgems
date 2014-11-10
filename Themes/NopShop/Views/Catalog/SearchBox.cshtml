@@ -2,16 +2,22 @@
 @using Nop.Web.Models.Catalog;
 @using (Html.BeginRouteForm("ProductSearch", FormMethod.Get, new { onsubmit = "return check_small_search_form()" }))
 {
-    
+    <form class="search-form container">
+
+        <input type="text" name="q" class="form-control search" id="small-searchterms" @(Model.AutoCompleteEnabled ? Html.Raw(" autocomplete=\"off\"") : null)
+               value="@T("Search.SearchBox.Tooltip")" onfocus="if(this.value=='@T("Search.SearchBox.Tooltip")')this.value=''" onblur="if(this.value=='') {this.value = '@T("Search.SearchBox.Tooltip")';}" placeholder="Search">
+        <button type="submit" class="btn btn-link"><span class="sr-only">@T("Search") </span><i class="fa fa-search fa-flip-horizontal search-icon"></i></button>
+        <button type="button" class="btn btn-link close-btn" data-toggle="search-form-close"><span class="sr-only">Close </span><i class="fa fa-times search-icon"></i></button>
+    </form>
 
 
-    <div class="input-group">
+    @*<div class="input-group">
         <input type="text" class="form-control" id="small-searchterms" @(Model.AutoCompleteEnabled ? Html.Raw(" autocomplete=\"off\"") : null)
                     value="@T("Search.SearchBox.Tooltip")" name="q"  onfocus="if(this.value=='@T("Search.SearchBox.Tooltip")')this.value=''" onblur="if(this.value=='') {this.value = '@T("Search.SearchBox.Tooltip")';}" />
         <span class="input-group-btn">
             <button type="submit" class="btn btn-default"> @T("Search") </button>
         </span>
-    </div><!-- /input-group -->
+    </div>*@<!-- /input-group -->
     
     
 

@@ -1,8 +1,10 @@
 ﻿@model ShipmentListModel
            
 @{
-    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
-    
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+
+
     //page title
     ViewBag.Title = T("Admin.Orders.Shipments.List").Text;
 }
@@ -71,6 +73,14 @@
             </td>
         </tr>
         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.WarehouseId):
+            </td>
+            <td class="adminData">
+                @Html.DropDownList("WarehouseId", Model.AvailableWarehouses)
+            </td>
+        </tr>
+        <tr>
             <td colspan="2">
                 <input type="button" id="btnSearch" class="k-button" value="@T("Admin.Common.Search")" />
             </td>
@@ -106,13 +116,14 @@
                                     // Cancel the changes
                                     this.cancelChanges();
                                 },
-                                pageSize: @(gridPageSize),
+                                pageSize: @(defaultGridPageSize),
                                 serverPaging: true,
                                 serverFiltering: true,
                                 serverSorting: true
                             },
                             pageable: {
-                                refresh: true
+                                refresh: true,
+                                pageSizes: [@(gridPageSizes)]
                             },
                             //details grid
                             detailInit: detailInit,
@@ -202,6 +213,10 @@
                                     title: "@T("Admin.Orders.Shipments.Products.ProductName")",
                                     width: 400
                                 },{
+                                    field: "Warehouse",
+                                    title: "@T("Admin.Orders.Shipments.Products.Warehouse")",
+                                    width: 150
+                                },{
                                     field: "QuantityInThisShipment",
                                     title: "@T("Admin.Orders.Shipments.Products.QtyShipped")",
                                     width: 150
@@ -275,14 +290,6 @@
             });
 
 
-            //"Print packaging slips (selected)" button
-            $('#exportpackagingslips-selected').click(function (e) {
-                e.preventDefault();
-                //redirect to required URL
-                setLocation('@(Url.Action("PdfPackagingSlipSelected", "Order"))?selectedIds=' + selectedIds.join(","));
-                return false;
-            });
-        
             //"ship selected" button
             $('#ship-selected').click(function(e) {
                 e.preventDefault();
@@ -367,13 +374,14 @@
 
         function additionalData() {
             return {
-                    StartDate: $('#@Html.FieldIdFor(model => model.StartDate)').val(),
-                    EndDate: $('#@Html.FieldIdFor(model => model.EndDate)').val(),
-                    TrackingNumber: $('#@Html.FieldIdFor(model => model.TrackingNumber)').val(),
-                    CountryId: $('#@Html.FieldIdFor(model => model.CountryId)').val(),
-                    StateProvinceId: $('#@Html.FieldIdFor(model => model.StateProvinceId)').val(),
-                    City: $('#@Html.FieldIdFor(model => model.City)').val()
-                    };
+                StartDate: $('#@Html.FieldIdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.FieldIdFor(model => model.EndDate)').val(),
+                TrackingNumber: $('#@Html.FieldIdFor(model => model.TrackingNumber)').val(),
+                CountryId: $('#@Html.FieldIdFor(model => model.CountryId)').val(),
+                StateProvinceId: $('#@Html.FieldIdFor(model => model.StateProvinceId)').val(),
+                City: $('#@Html.FieldIdFor(model => model.City)').val(),
+                WarehouseId: $('#@Html.FieldIdFor(model => model.WarehouseId)').val()
+            };
         }
     
         function onDataBound(e) {
@@ -396,3 +404,22 @@
    </script>
     
 }
+
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+@using (Html.BeginForm("PdfPackagingSlipSelected", "Order", FormMethod.Post, new { id = "pdf-packaging-slip-selected-form" }))
+{
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#exportpackagingslips-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            $('#pdf-packaging-slip-selected-form #selectedIds').val(ids);
+            $('#pdf-packaging-slip-selected-form').submit();
+            return false;
+        });
+    });
+
+</script>

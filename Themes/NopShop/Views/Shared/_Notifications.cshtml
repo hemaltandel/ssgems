@@ -44,12 +44,8 @@
         <div class="notifications" id="dialog-notifications-error" title="@T("Common.Error")" style="display:none;">
         </div>
         <div id="bar-notification" class="notifications" style="display: none;">
-            <span class="close" title="@T("Common.Close")">&nbsp;</span>
-            
-
+            @*<span class="close" title="@T("Common.Close")">&nbsp;</span>*@
+            <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         </div>
-        @*<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>*@
-    
-
-
+ 
 @Html.Widget("notifications")

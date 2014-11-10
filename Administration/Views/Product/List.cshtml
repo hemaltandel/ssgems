@@ -1,7 +1,8 @@
 ﻿@using Nop.Core.Domain.Catalog
 @model ProductListModel
 @{
-    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
 
     //page title
     ViewBag.Title = T("Admin.Catalog.Products.Manage").Text;
@@ -138,13 +139,14 @@
                                     // Cancel the changes
                                     this.cancelChanges();
                                 },
-                                pageSize: @(gridPageSize),
+                                pageSize: @(defaultGridPageSize),
                                 serverPaging: true,
                                 serverFiltering: true,
                                 serverSorting: true
                             },
                             pageable: {
-                                refresh: true
+                                refresh: true,
+                                pageSizes: [@(gridPageSizes)]
                             },
                             editable: {
                                 confirmation: false,
@@ -248,32 +250,36 @@
                 }
             });
 
-            //"Export Excel selected" button
-            $('#exportexcel-selected').click(function (e) {
+            //delete selected
+            $('#delete-selected').click(function(e) {
+
                 e.preventDefault();
-                //redirect to required URL
-                setLocation('@(Url.Action("ExportExcelSelected", "Product"))?selectedIds=' + selectedIds.join(","));
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DeleteSelected", "Product"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        //grid.dataSource.page(1); //new search. Set page size to 1
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
                 return false;
             });
-
-            //"Export XML selected" button
-            $('#exportxml-selected').click(function (e) {
-                e.preventDefault();
-                //redirect to required URL
-                setLocation('@(Url.Action("ExportXmlSelected", "Product"))?selectedIds=' + selectedIds.join(","));
-                return false;
-            });
-
+            
             $('#mastercheckbox').click(function () {
                 $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
-            });
-
-            //"Delete (selected)" button
-            $('#delete-selected').click(function (e) {
-                e.preventDefault();
-                //redirect to required URL
-                setLocation('@(Url.Action("DeleteSelected", "Product"))?selectedIds=' + selectedIds.join(","));
-                return false;
             });
 
             //wire up checkboxes. 
@@ -374,4 +380,42 @@
             window.data('kendoWindow').center().open();
         });
     });
+</script>
+
+@*export selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+@using (Html.BeginForm("ExportXmlSelected", "Product", FormMethod.Post, new { id = "export-xml-selected-form" }))
+{
+    <input type="hidden" id="selectedIds" name ="selectedIds" value="" />
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#exportxml-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            $('#export-xml-selected-form #selectedIds').val(ids);
+            $('#export-xml-selected-form').submit();
+            return false;
+        });
+    });
+
+</script>
+
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+@using (Html.BeginForm("ExportExcelSelected", "Product", FormMethod.Post, new { id = "export-excel-selected-form" }))
+{
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+}
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        $('#exportexcel-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            $('#export-excel-selected-form #selectedIds').val(ids);
+            $('#export-excel-selected-form').submit();
+            return false;
+        });
+    });
+
 </script>

@@ -7,40 +7,41 @@
 {
     var webHelper = EngineContext.Current.Resolve<IWebHelper>();
     
-    var currencies = Model.AvailableCurrencies.Select(x => new SelectListItem
-        {
-            Text = x.Name,
-            Value = webHelper.ModifyQueryString(Url.RouteUrl("ChangeCurrency", new { customercurrency = x.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null),
-            Selected = x.Id.Equals(Model.CurrentCurrencyId)
-        });
+    //var currencies = Model.AvailableCurrencies.Select(x => new SelectListItem
+    //    {
+    //        Text = x.Name,
+    //        Value = webHelper.ModifyQueryString(Url.RouteUrl("ChangeCurrency", new { customercurrency = x.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null),
+    //        Selected = x.Id.Equals(Model.CurrentCurrencyId)
+    //    });
     
     @*@Html.DropDownList("customerCurrency", currencies, new { onchange = "setLocation(this.value);" })*@
 
-
-    <div class="selector-dropdown">
-        <div class="btn-group">
-            <span>
-                <div type="button" class="btn btn-sm">Currency : 
-                    <span class="selected-val">
-                        @foreach (var just_currency in currencies)
-                        {
-                            if(just_currency.Selected==true)
-                            {
-                                @just_currency.Text
-                            }
-                        }
-                    </span>
-                </div>
-                <div class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+    <div class="btn-group currency-menu">
+        @foreach (var curr in Model.AvailableCurrencies)
+        {
+            if (curr.Id == Model.CurrentCurrencyId)
+            {
+                <a data-toggle="dropdown" data-hover="dropdown" class="btn btn-link dropdown-toggle" href="#@curr.Name">
+                    <span>@curr.CurrencySymbol&nbsp;</span>
+                    @*<span class="hidden-xs">@curr.Name</span>*@
                     <span class="caret"></span>
-                </div>
-            </span>
-            <ul class="dropdown-menu box-dropdown-menu">
-                @foreach (var currency in currencies)
-                {
-                    <li class="btn-sm"><a href="@currency.Value">@currency.Text</a></li>
-                }
-            </ul>
-        </div>
+                </a>
+
+            }
+
+        }
+        <ul class="dropdown-menu dropdown-menu-mini dropdown-menu-primary">
+            @foreach (var curr in Model.AvailableCurrencies)
+            {
+                <li>
+                    <a href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeCurrency", new { customercurrency = curr.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null)">
+                        <span>@curr.CurrencySymbol&nbsp;</span>@curr.Name
+                    </a>
+                </li>
+            }
+
+
+        </ul>
     </div>
+    
 }
