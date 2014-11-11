@@ -8,30 +8,33 @@
 
     if (Model.UseImages)
     {
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">
-                @foreach (var lang in Model.AvailableLanguages)
-                {
-                    if(lang.Id == Model.CurrentLanguageId)
-                    {
-                        <img  src="@Url.Content("~/Content/Images/flags/" + @lang.FlagImageFileName) " />
-                    }
-                
-                }                
 
-                <i class="fa fa-angle-down"></i>
-            </a>
-
-            <ul class="dropdown-menu">
-                @foreach (var lang in Model.AvailableLanguages)
+        <div class="btn-group language-menu">
+            @foreach (var lang in Model.AvailableLanguages)
+            {
+                if (lang.Id == Model.CurrentLanguageId)
                 {
-                    <li><a href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null)" title="@lang.Name">
-                            <img title='@lang.Name' alt='@lang.Name' @(lang.Id == Model.CurrentLanguageId ? " class=selected" : null)
-                                 src="@Url.Content("~/Content/Images/flags/" + @lang.FlagImageFileName) " />
-                        </a></li>
+                    <a data-toggle="dropdown" data-hover="dropdown"  class="btn btn-link dropdown-toggle" href="#@lang.Name">
+                        <span class="flag-icon flag-icon-@lang.FlagImageFileName.Split('.')[0].ToString()"></span>&nbsp;
+                        <span class="caret"></span>
+                    </a>
+
                 }
+
+            }
+            <ul class="dropdown-menu dropdown-menu-mini dropdown-menu-primary">
+                @foreach (var lang in Model.AvailableLanguages)
+                {
+                 <li>
+                     <a href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null)">
+                         <span class="flag-icon flag-icon-@lang.FlagImageFileName.Split('.')[0].ToString()"></span> @lang.Name
+                     </a>
+                </li>
+                }
+                
+                
             </ul>
-        </li>
+        </div>
 
     @*<ul class="language-list">
         @foreach (var lang in Model.AvailableLanguages)
@@ -45,35 +48,32 @@
     }
     else
     {
-        var languages = Model.AvailableLanguages.Select(lang => new SelectListItem
-        {
-            Text = lang.Name,
-            Value = webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null),
-            Selected = lang.Id.Equals(Model.CurrentLanguageId)
-        });
-    
-        @*@Html.DropDownList("customerlanguage", languages, new { onchange = "setLocation(this.value);" })*@
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="#">
-                @foreach(var just_language in languages)
+
+        <div class="btn-group language-menu">
+            @foreach (var lang in Model.AvailableLanguages)
+            {
+                if (lang.Id == Model.CurrentLanguageId)
                 {
-                    if(just_language.Selected==true)
-                    {
-                        @just_language.Text
-                    }
+                    <a data-toggle="dropdown" data-hover="dropdown" class="btn btn-link dropdown-toggle" href="#@lang.Name">
+                        @lang.Name
+                    </a>
+
                 }
-                <i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown-menu" >
-        
-                @foreach(var language in languages)
+
+            }
+            <ul class="dropdown-menu dropdown-menu-mini dropdown-menu-primary">
+                @foreach (var lang in Model.AvailableLanguages)
                 {
-                    <li><a href="@language.Value" >@language.Text</a></li>
-            
-                }     
+                    <li>
+                        <a class="lang-es" href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl), null)">
+                            @lang.Name
+                        </a>
+                    </li>
+                }
+
 
             </ul>
-        </li>
+        </div>
 
     }
 }

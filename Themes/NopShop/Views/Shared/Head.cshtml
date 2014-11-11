@@ -5,63 +5,25 @@
      var supportRtl = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Rtl;
     if (supportRtl)
     {
-
-        <!--Uncomment following line to select 'Black' as theme color || Comment following line if you dont want-->
-        <link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/black.css" title="black" media="screen" />
-
-
-        <!--Uncomment following line to select 'Blue' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/blue.css" title="black" media="screen" />-->
-
-        <!--Uncomment following line to select 'Red' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/red.css" title="black" media="screen" />-->
-
-        <!--Uncomment following line to select 'Green' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/green.css" title="black" media="screen" />-->
-
-
-    
-        <!--Uncomment following lines and comment out all previous lines to add color picker -->
-
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/black.css" title="black" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/blue.css" title="blue" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/red.css" title="red" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/green.css" title="green" media="screen" />-->
-
-
-         Html.AppendCssFileParts("~/Themes/NopRoot/Content/styles.rtl.css");
-         Html.AppendCssFileParts("~/Themes/NopRoot/Content/styles.css");
-         Html.AppendCssFileParts("~/Themes/NopRoot/Content/bootstrap-3.2.0/css/bootstrap.rtl.css"); 
-         Html.AppendCssFileParts("~/Themes/NopRoot/Content/font-awosome-3/css/font-awesome.rtl.css");
-        Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+         //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.rtl.css");
+         //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom-style.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-color.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-style.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/plugins/flag-icon-css/css/flag-icon.min.css");
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap/css/bootstrap.rtl.css"); 
+         Html.AppendCssFileParts("~/Themes/NopShop/Content/font-awosome-3/css/font-awesome.rtl.css");
+         Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
     }
-    else { 
-        <!--Uncomment following line to select 'Black' as theme color || Comment following line if you dont want-->
-        <link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/black.css" title="black" media="screen" />
-
-
-        <!--Uncomment following line to select 'Blue' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/blue.css" title="black" media="screen" />-->
-
-        <!--Uncomment following line to select 'Red' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/red.css" title="black" media="screen" />-->
-
-        <!--Uncomment following line to select 'Green' as theme color || Comment following line if you dont want-->
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/green.css" title="black" media="screen" />-->
-
-
-    
-        <!--Uncomment following lines and comment out all previous lines to add color picker -->
-
-        <!--<link rel="stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/black.css" title="black" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/blue.css" title="blue" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/red.css" title="red" media="screen" />
-        <link rel="alternate stylesheet" type="text/css" href="~/Themes/NopRoot/Content/color-styles/green.css" title="green" media="screen" />-->
-
-
-        Html.AppendCssFileParts("~/Themes/NopRoot/Content/styles.css");
-        Html.AppendCssFileParts("~/Themes/NopRoot/Content/bootstrap-3.2.0/css/bootstrap.min.css");
-        Html.AppendCssFileParts("~/Themes/NopRoot/Content/font-awosome-3/css/font-awesome.css");
+    else
+    {
+        //Html.AppendCssFileParts("~/Themes/NopShop/Content/css/styles.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom-style.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-color.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/theme-style.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/plugins/flag-icon-css/css/flag-icon.min.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/bootstrap/css/bootstrap.css");
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/font-awosome-3/css/font-awesome.css");
         Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
     }
 

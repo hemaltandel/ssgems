@@ -20,14 +20,30 @@
 @helper RenderSubCategoryLine(CategorySimpleModel category, int level)
 {
     <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">@category.Name
-            &nbsp;<i class="fa fa-angle-down"></i>
+        <a class="dropdown-toggle" id="pages-drop" data-toggle="dropdown" data-hover="dropdown" href="#">
+            @category.Name
+        &nbsp;<i class="fa fa-angle-down"></i>
 
-            
-               
-            
+        @*@if (category.NumberOfProducts.HasValue)
+        {
+            <span class="head-number op-number">
 
-        </a>
+                @if(category.NumberOfProducts.Value <= 9)
+                {
+                    @:0@(category.NumberOfProducts.Value)
+                }else
+                {
+                    @(category.NumberOfProducts.Value)
+                }
+
+                @#1#Bracket_Remover(@T("Categories.TotalProducts", category.NumberOfProducts.Value).ToString())#1#
+            </span>
+
+            <span>&nbsp;</span>
+        }
+        *@
+
+    </a>
         <ul class="dropdown-menu">
             @foreach (var subCategory in  category.SubCategories)
             {
@@ -47,140 +63,119 @@
     else
     {
          <li>
-            <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name
-            
-            
-            </a>
+             @if (level > 0) { 
+               <a  class="dropdown-toggle"  href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name</a>
+             }
+             else
+             {
+                <a class="dropdown-toggle"  data-hover="dropdown" href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name</a>
+             }
+
+                      
+                       @*@if (category.NumberOfProducts.HasValue)
+            {
+                <span class="head-number op-number">
+                    @if(category.NumberOfProducts.Value <= 9)
+                    {
+                        @:0@(category.NumberOfProducts.Value)
+                    }else
+                    {
+                        @(category.NumberOfProducts.Value)
+                    }
+
+                    @#1#T("Categories.TotalProducts", category.NumberOfProducts.Value)#1#
+                </span>
+                <span>&nbsp;</span>
+
+            }*@
+
+              
          </li>
     }
 }
 
 
-<!--Uncomment following lines to the 'End Marker' to add color picker-->
+            <!-- mobile collapse menu button - data-toggle="toggle" = default BS menu - data-toggle="jpanel-menu" = jPanel Menu -->
+            <a href="#top" class="navbar-btn" data-toggle="jpanel-menu" data-target=".navbar-collapse" data-direction="right"><i class="fa fa-bars"></i></a>
 
-<!--<div class="theme-color-picker">
-        <div id="configure-button" class="configure-button" data-expanded="false">
-            <a href="#"><i class="fa fa-cog fa-2x"></i></a>
-        
+            <!--everything within this div is collapsed on mobile-->
+            <div class="navbar-collapse collapse">
+                <!--main navigation-->
+                <ul class="nav navbar-nav">
+                   @Html.Widget("header_menu_before")
+                   @*<li class="home-link">
+                        <a href="index.htm"><i class="fa fa-home"></i><span class="hidden">Home</span></a>
+                    </li>*@
+
+                @if (Model.Categories.Count > 0 & 1==1)
+                {
+                    foreach (var category in Model.Categories)
+                    {
+                        @RenderCategoryLine(category, 0)
+                    }
+                }
+                else
+                {
+
+                    //no categories to display?
+                    //in this cae let's diplay some default menu items
+                    <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
+                    if (Model.RecentlyAddedProductsEnabled)
+                    {
+                        <li>
+                            <a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a>
+                        </li>
+                    }
+                    <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("ProductSearch")">@T("Search")</a> </li>
+                    <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+                    if (Model.BlogEnabled)
+                    {
+                        <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+                    }
+                    if (Model.ForumEnabled)
+                    {
+                        <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+                    }
+                    <li><a class="dropdown-toggle" id="pages-drop"  data-hover="dropdown" href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+
+                }
+
+
+
+
+                @Html.Widget("header_menu_after")
+            </ul>
         </div>
-        <div class="color-options" id="color-options">
-            <h4>Preset Color</h4>
-            <div class="options-choosing-palette">
-                <ul>
-                    <li><a href="#" rel="black" class="styleswitch black-picker"><img src="~/Themes/NopRoot/Content/images/black-picker.png"/></a></li>
-                    <li><a href="#" rel="blue" class="styleswitch blue-picker"><img src="~/Themes/NopRoot/Content/images/blue-picker.png"/></a></li>
-                </ul>
-                <ul>
-                    <li><a href="#" rel="red" class="styleswitch red-picker"><img src="~/Themes/NopRoot/Content/images/red-picker.png"/></a></li>
-                    <li><a href="#" rel="green" class="styleswitch green-picker"><img src="~/Themes/NopRoot/Content/images/green-picker.png"/></a></li>
-            
-            
+        <!--/.navbar-collapse -->
+        @*<nav role="navigation" class="navbar navbar-inverse">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-                </ul>
-            
-            </div>
+                </div>
 
-        
-
-        </div>
-    </div>-->
-
-<!--End Marker-->
-
-<nav role="navigation" class="navbar navbar-inverse">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            @Html.Widget("header_menu_before")
-            <li><a href="@Url.RouteUrl("HomePage")"><span class="glyphicon glyphicon-home"></span></a></li>
-            @if (Model.Categories.Count > 0)
-            {
-                foreach (var category in Model.Categories)
-                {
-                    @RenderCategoryLine(category, 0)
-                }
-            }
-            else
-            {
-                //no categories to display?
-                //in this cae let's diplay some default menu items
-                <li><a href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
-                if (Model.RecentlyAddedProductsEnabled)
-                {
-                    <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a>
-                    </li>
-                }
-                <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a> </li>
-                <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
-                if (Model.BlogEnabled)
-                {
-                    <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
-                }
-                if (Model.ForumEnabled)
-                {
-                    <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
-                }
-                <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
-            }
-            @Html.Widget("header_menu_after")
-        </ul>
-    </div><!-- /.navbar-collapse -->
-</nav>
-
-
-<script type="text/javascript">
-        $(function () {
-            // Call stylesheet init so that all stylesheet changing functions 
-           // will work.
-            $.stylesheetInit();
-            
-            // This code loops through the stylesheets when you click the link with 
-            // an ID of "toggler" below.
-            $('#toggler').bind(
-				'click',
-				function (e) {
-				    $.stylesheetToggle();
-				    return false;
-				}
-			);
-
-            // When one of the styleswitch links is clicked then switch the stylesheet to
-            // the one matching the value of that links rel attribute.
-            $('.styleswitch').bind(
-				'click',
-				function (e) {
-				    $.stylesheetSwitch(this.getAttribute('rel'));
-				    return false;
-				}
-			);
-
-
-            $("#configure-button").on("click", function (e) {
-                e.preventDefault();
-                if ($(this).data("expanded") == "true") {
-                    $("#color-options").css({ right: '-140px' });
-                    $("#configure-button").css({ right: '0px' });
-                    $(this).data("expanded", "false");
-                } else {
-                    $("#color-options").css({ right: '0px' });
-                    $("#configure-button").css({ right: '140px' });
-                    $(this).data("expanded", "true");
-                }
-
-            });
-
-
-        });
-    
-	</script>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        @Html.Widget("header_menu_before")
+                        <li><a href="@Url.RouteUrl("HomePage")"><span class="glyphicon glyphicon-home"></span></a></li>
+                        @if (Model.Categories.Count > 0)
+                        {
+                            foreach (var category in Model.Categories)
+                            {
+                                @RenderCategoryLine(category, 0)
+                            }
+                        }
+                        else
+                        {
+                            
+                        }
+                        @Html.Widget("header_menu_after")
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>*@

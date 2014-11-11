@@ -5,15 +5,16 @@
 }
 @if (Model.Enabled)
 {
-    <div class="panel panel-default side-nav">
+    <div class="box-panel panel panel-default side-nav">
         <div class="panel-heading">
             <strong>@T("Filtering.SpecificationFilter")</strong>
         </div>
+        <div class="box-bottom-border"></div>
         <div class="panel-body">
             @if (Model.NotFilteredItems.Count > 0)
             {
                 
-                @*foreach (var group in notFilteredItemsGroups)
+                foreach (var group in notFilteredItemsGroups)
                 {
                     var groupList = group.ToList();
                         
@@ -22,20 +23,6 @@
                             <strong>@groupList[0].SpecificationAttributeName</strong>
                         </li>
 
-                        @foreach (var spec in groupList)
-                        {
-                            <li>
-                                <a href="@spec.FilterUrl">@spec.SpecificationAttributeOptionName</a>
-                            </li>
-                        }
-                    </ul> 
-                }*@
-                foreach (var group in notFilteredItemsGroups)
-                {
-                    var groupList = group.ToList();
-                    //GQ
-                    <div class="filterTitle"><strong>@groupList[0].SpecificationAttributeName</strong></div>
-                    <ul class="nav filterSpecs">
                         @foreach (var spec in groupList)
                         {
                             <li>
