@@ -1,123 +1,21 @@
-﻿@using Nop.Core.Infrastructure;
-@using Nop.Services.Security;
-@using Nop.Core.Domain.Orders;
-@using Nop.Services.Orders;
-@{
-
-    var shoppingCartEnabled = EngineContext.Current.Resolve<IPermissionService>().Authorize(StandardPermissionProvider.EnableShoppingCart);
-    var shoppingCartItems = 0;
-    if (shoppingCartEnabled)
-    {
-
-        shoppingCartItems = EngineContext.Current.Resolve<Nop.Core.IWorkContext>().CurrentCustomer.ShoppingCartItems
-                    .Where(sci => sci.ShoppingCartType == ShoppingCartType.ShoppingCart)
-                    .Where(sci => sci.StoreId == EngineContext.Current.Resolve<Nop.Core.IStoreContext>().CurrentStore.Id)
-                    .ToList()
-                    .GetTotalProducts();
-    }
-
-}
-
-<!-- ======== Region: #navigation ======== -->
-<div id="navigation" class="wrapper">
-    <div class="navbar-static-top">
-
-        <!--Header upper region-->
-        <div class="header-upper">
-            <div class="header-upper-inner container">
-                <div class="row">
-                    @Html.Widget("header")
-                    @Html.Action("HeaderLinks", "Common")
-                    @*@Html.Action("FlyoutShoppingCart", "ShoppingCart")*@
-                </div>
-            </div>
+﻿
+<div class="navbar navbar-default navbar-fixed-top top-menu" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".test">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-
-        <!--Header search region - hidden by default -->
-        <div class="header-search">
-            @Html.Action("SearchBox", "Catalog")
+        <div class="navbar-collapse collapse test">
+            @Html.Widget("header")
+            @Html.Action("HeaderLinks", "Common")
+            @*@Html.Action("FlyoutShoppingCart", "ShoppingCart")*@
         </div>
-
-        <!--Header & Branding region-->
-        <div class="header" data-toggle="clingify">
-            <div class="header-inner container">
-                <div class="navbar">
-                    <!--branding/logo-->
-                    <div class="pull-left">
-                        <a href="@Url.RouteUrl("HomePage")" class="navbar-brand">
-                            <img alt="Shop" src="~/Themes/NopShop/Content/images/logo.png" />
-
-                        </a>
-                    </div>
-                    @*<a class="navbar-brand" href="index.htm" title="Home">
-                            <h1>
-                                <span>App</span>Strap<span>.</span>
-                            </h1>
-                        </a>
-                        <div class="slogan">Responsive HTML Theme</div>*@
-                    <!-- Main Top Navigation Menu-->
-                    @Html.Action("TopMenu", "Catalog")
-
-                    <div class="nav navbar-nav navbar-right hidden-xs">
-                        <ul class="list-inline">
-                            <!--Shopping Cart-->
-                            @if (shoppingCartEnabled)
-                            {
-                                <li>
-                                    @if (!String.IsNullOrWhiteSpace(@Html.Action("FlyoutShoppingCart", "ShoppingCart").ToString()))
-                                    {
-                                        <a href="@Url.RouteUrl("ShoppingCart")" class="round-link cart dropdown-toggle visible-md visible-lg" data-toggle="dropdown" data-hover="dropdown">
-                                            <i class="fa fa-shopping-cart shopping-cart-icon"></i>
-
-                                        </a>
-
-
-
-                                    <ul class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
-                                        <li>@Html.Action("FlyoutShoppingCart", "ShoppingCart")</li>
-
-                                    </ul>
-
-
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.RouteUrl("ShoppingCart")" class="round-link cart">
-                                            <i class="fa fa-shopping-cart shopping-cart-icon"></i>
-
-                                        </a>
-
-                                    }
-
-
-                                </li>
-
-                            }
-                            <li>
-                                <!--Search trigger -->
-                                <a href="#search" class="search-form-tigger" data-toggle="search-form" data-target=".header-search">
-                                    <i class="fa fa-search fa-flip-horizontal search-icon"></i>
-                                </a>
-                            </li>
-                        </ul>
-
-
-
-
-
-                    </div>
-                    
-
-
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </div>
-
-<!-- ======== Region: #Notification ======== -->
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -125,29 +23,19 @@
         </div>
     </div>
 </div>
-
-
-
-@*<div class="container">
-        <div class="row">
-            <div class="title-box">
-                <div class="col-lg-4">
-                    <a href="@Url.RouteUrl("HomePage")" class="logo">&nbsp; </a>
-                </div>
-
-
-                <div class="col-md-8">
-                    <div class="search-box col-md-8 pull-right">
-                        @Html.Action("SearchBox", "Catalog")
-                    </div>
-
-                    @Html.Widget("header_selectors")
-                </div>
-            </div>
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <a href="@Url.RouteUrl("HomePage")" class="logo">&nbsp; </a>
         </div>
-
+        <div class="col-md-8">
+            <div class="search-box col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-right">
+                @Html.Action("SearchBox", "Catalog")
+            </div>
+            @*@Html.Widget("header_selectors")*@
+        </div>
     </div>
-    <div class="down-space-30"></div>*@
+</div>
+<div class="down-space-30"></div>
 
 

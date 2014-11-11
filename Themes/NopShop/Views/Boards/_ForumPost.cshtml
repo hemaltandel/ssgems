@@ -7,15 +7,14 @@
             <div class="col-md-3 post-info">
                 <div class="manage">
                     @if (Model.IsCurrentCustomerAllowedToEditPost)
-                    {                
-                        @Html.RouteLink(" "+T("Forum.EditPost").Text, "PostEdit", new { id = Model.Id }, new { @class = "edit-post-link-button btn btn-default fa fa-edit" })
+                    {
+                        @Html.RouteLink(T("Forum.EditPost").Text, "PostEdit", new { id = Model.Id }, new { @class = "edit-post-link-button" })
                     }
                     @if (Model.IsCurrentCustomerAllowedToDeletePost)
                     {
-                        @Html.RouteLink(" "+T("Forum.DeletePost").Text, "PostDelete", new { id = Model.Id }, new { onClick = String.Format("return confirm('{0}');", T("Common.AreYouSure").Text), @class = "delete-post-link-button btn btn-default fa fa-times-circle" })
+                        @Html.RouteLink(T("Forum.DeletePost").Text, "PostDelete", new { id = Model.Id }, new { onClick = String.Format("return confirm('{0}');", T("Common.AreYouSure").Text), @class = "delete-post-link-button" })
                     }
-                </div>
-        
+                </div>       
                 <div class="user-info">
                     @if (Model.CustomerId > 0)
                     {
@@ -67,7 +66,7 @@
                     @if (Model.AllowPrivateMessages && !Model.IsCustomerGuest)
                     {
                         <div class="send-pm-box">
-                            @Html.RouteLink(" "+T("Forum.PrivateMessages.PM").Text, "SendPM", new { toCustomerId = Model.CustomerId }, new { @class = "pm-link-button btn btn-default fa fa-user" })
+                            <a class="btn btn-default" href="@Url.RouteUrl("SendPM", new { toCustomerId = Model.CustomerId })"><i class="fa fa-user"></i>&nbsp; @T("Forum.PrivateMessages.PM")</a>
                         </div>
                     }
                 </div>

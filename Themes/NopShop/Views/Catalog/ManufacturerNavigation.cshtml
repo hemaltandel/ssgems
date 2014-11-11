@@ -2,11 +2,10 @@
 @using Nop.Web.Models.Catalog;
 @if (Model.Manufacturers.Count > 0)
 {
-    <div class="box-panel panel panel-defaul side-nav">
+    <div class="panel panel-default side-nav">
         <div class="panel-heading">
             <strong>@T("Manufacturers")</strong>
         </div>
-        <div class="box-bottom-border"></div>
         <div class="panel-body">
             <ul class="nav">
                 @foreach (var manufacturer in Model.Manufacturers)
