@@ -19,13 +19,13 @@
     }
     @if (Model.AllowPrivateMessages)
     {
-        <li><a href="@Url.RouteUrl("PrivateMessages", new { tab = "" })" class="ico-inbox">@T("PrivateMessages.Inbox")</a>
-            @Model.UnreadPrivateMessages</li>
+        <li><a href="@Url.RouteUrl("PrivateMessages", new { tab = "" })" class="ico-inbox">@T("PrivateMessages.Inbox") <span class="unread-private-messages">@Model.UnreadPrivateMessages</span> </a>
+           </li>
         if (!string.IsNullOrEmpty(Model.AlertMessage))
         {
             <script type="text/javascript">
                 $(document).ready(function () {
-                    displayPopupNotification('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.AlertMessage))', 'success', false);
+                    $('#notificationModal').modal('show');
                 });
             </script>
         }
@@ -95,25 +95,17 @@
 </ul>
 
 
-@if (Model.ShoppingCartEnabled)
-    {
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.top-menu').on('mouseenter', '#topcartlink', function () {
-                    $('#flyout-cart').addClass('active');
-
-                });
-                $('.top-menu').on('mouseleave', '#topcartlink', function () {
-                    $('#flyout-cart').removeClass('active');
-
-                });
-                $('.top-menu').on('mouseenter', '#flyout-cart', function () {
-                    $('#flyout-cart').addClass('active');
-                });
-                $('.top-menu').on('mouseleave', '#flyout-cart', function () {
-                    $('#flyout-cart').removeClass('active');
-                });
-            });
-        </script>
-    }
-
+@*Notification window*@
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="notificationModalLabel">@T("Common.Notification")</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(HttpUtility.JavaScriptStringEncode(Model.AlertMessage))
+            </div>
+        </div>
+    </div>
+</div>

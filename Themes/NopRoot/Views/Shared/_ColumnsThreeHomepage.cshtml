@@ -35,7 +35,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @Html.Widget("home_page_top")
         </div>
     
@@ -44,7 +44,7 @@
 <div class="container">
     <div class="row">
         
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-3">
             @if (IsSectionDefined("left"))
             {
                 @RenderSection("left")
@@ -60,12 +60,12 @@
                 @Html.Widget("left_side_column_after")
             }
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6">
             @Html.Widget("main_column_before")
             @RenderBody()
             @Html.Widget("main_column_after")
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-3">
             @if (IsSectionDefined("right"))
             {
                 @RenderSection("right")
@@ -74,7 +74,7 @@
             {
                 @Html.Widget("right_side_column_before")
                 @*@Html.Action("NewsletterBox", "Newsletter")*@
-                @Html.Action("RecentlyViewedProductsBlock", "Catalog", new { productThumbPictureSize = 32 })        
+                @Html.Action("RecentlyViewedProductsBlock", "Product", new { productThumbPictureSize = 32 })       
         @*@Html.Action("InfoBlock", "Common")*@    
                 @Html.Action("PollBlock", "Poll", new { systemKeyword = "RightColumnPoll" })
                 @Html.Widget("right_side_column_after")

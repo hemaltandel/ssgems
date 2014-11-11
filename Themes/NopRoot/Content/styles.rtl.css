@@ -1,6 +1,6 @@
 ﻿.col-md-3.layout-left{padding: 0 0px 0 30px;}
 .col-md-3.layout-right{padding: 0 30px 0 0px;}
-.masthead .navbar-inverse .navbar-nav > li > a {border-left: 1px solid #2b2b2b;}
+.masthead .navbar-inverse .navbar-nav > li > a {border-left: 1px solid #2b2b2b; border-right:none;}
 .navbar-fixed-top.top-menu {right: 0;}
 
 @media (min-width: 768px) {

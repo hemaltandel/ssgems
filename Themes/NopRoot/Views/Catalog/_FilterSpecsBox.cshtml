@@ -13,7 +13,7 @@
             @if (Model.NotFilteredItems.Count > 0)
             {
                 
-                foreach (var group in notFilteredItemsGroups)
+                @*foreach (var group in notFilteredItemsGroups)
                 {
                     var groupList = group.ToList();
                         
@@ -22,6 +22,20 @@
                             <strong>@groupList[0].SpecificationAttributeName</strong>
                         </li>
 
+                        @foreach (var spec in groupList)
+                        {
+                            <li>
+                                <a href="@spec.FilterUrl">@spec.SpecificationAttributeOptionName</a>
+                            </li>
+                        }
+                    </ul> 
+                }*@
+                foreach (var group in notFilteredItemsGroups)
+                {
+                    var groupList = group.ToList();
+                    //GQ
+                    <div class="filterTitle"><strong>@groupList[0].SpecificationAttributeName</strong></div>
+                    <ul class="nav filterSpecs">
                         @foreach (var spec in groupList)
                         {
                             <li>
