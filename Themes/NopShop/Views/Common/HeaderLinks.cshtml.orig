@@ -1,0 +1,146 @@
+﻿@model HeaderLinksModel
+@using Nop.Web.Models.Common;
+
+
+@*@Html.Action("Index","SideMenu",new { area = "" })*@
+    
+@Html.Widget("header_links_before")
+
+<div class="col-xs-6 col-xs-push-6">
+    <div class="top-links">
+        @if (Model.IsAuthenticated)
+        {
+            <a href="@Url.RouteUrl("CustomerInfo")" class="account">
+                <span class="glyphicon glyphicon-user"> </span>
+                <span class="hidden-xs">&nbsp;@Model.CustomerEmailUsername</span></a>
+        }
+        else
+        {
+            <a href="@Url.RouteUrl("Register")" class="ico-register">@T("Account.Register")</a>
+        }
+        @*--Need to move @if (Model.WishlistEnabled)
+        {
+            <span class="separator hidden-xs">&nbsp;</span>
+            <a href="@Url.RouteUrl("Wishlist")" class="ico-wishlist  hidden-xs">
+                <span class="glyphicon glyphicon-list"></span>
+                <span class="cart-label hidden-xs">&nbsp;@T("Wishlist")</span>
+                <span class="wishlist-qty">@T("Wishlist.HeaderQuantity", Model.WishlistItems)</span>
+            </a>
+
+        }*@
+        
+        @*@if (Model.ShoppingCartEnabled)
+        {
+            <span class="separator">&nbsp;</span>
+            <span id="topcartlink" class="dropdown">
+                <a href="@Url.RouteUrl("ShoppingCart")" class="cart">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    <span class="cart-label hidden-xs">@T("ShoppingCart")</span>
+                    <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+                </a>
+                
+                @if (!String.IsNullOrWhiteSpace(@Html.Action("FlyoutShoppingCart", "ShoppingCart").ToString()))
+                {
+                    <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart dropdown-toggle visible-md visible-lg" data-toggle="dropdown" data-hover="dropdown">
+                        <span class="cart-label">@T("ShoppingCart")</span>
+                        <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+                        <i class="fa fa-angle-down"></i>
+
+                    </a>
+
+
+
+                    <ul class="dropdown-menu">
+                        <li>@Html.Action("FlyoutShoppingCart", "ShoppingCart")</li>
+
+                    </ul>
+
+
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
+                        <span class="cart-label">@T("ShoppingCart")</span>
+                        <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+
+
+                    </a>
+
+                }
+
+
+            </span>
+        }*@
+        
+        @if (Model.AllowPrivateMessages)
+        {
+            <span class="separator">&nbsp;</span>
+            <a href="@Url.RouteUrl("PrivateMessages", new { tab = "" })" class="inbox">
+            <span class="glyphicon glyphicon-envelope" ></span>
+            <span class="hidden-xs">&nbsp;@T("PrivateMessages.Inbox")</span></a>
+            @Model.UnreadPrivateMessages
+            if (!string.IsNullOrEmpty(Model.AlertMessage))
+            {
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        displayPopupNotification('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.AlertMessage))', 'success', false);
+                    });
+                </script>
+            }
+
+        }
+        <span class="separator">&nbsp;</span>
+        @if (Model.IsAuthenticated)
+        {
+            <a href="@Url.RouteUrl("Logout")" class="logout">
+                <span class="glyphicon glyphicon-log-out"></span>     
+                <span class="hidden-xs">&nbsp;@T("Account.Logout")</span></a>
+        }
+        else
+        {
+            <a href="@Url.RouteUrl("Login")" class="login">
+                <span class="glyphicon glyphicon-log-in"></span>
+                <span class="hidden-xs">&nbsp;@T("Account.Login")</span></a>
+        }
+        <span class="separator">&nbsp;</span>
+        @Html.Action("AdminHeaderLinks", "Common")
+
+        @Html.Action("TaxTypeSelector", "Common")
+    </div>
+
+
+
+</div>
+<div class="col-xs-6 col-xs-pull-6">
+    <div class="btn-group user-menu">
+        @Html.Action("LanguageSelector", "Common")
+        @Html.Action("CurrencySelector", "Common")
+    </div>
+</div>
+
+
+        @Html.Widget("header_links_after")
+
+
+        @if (Model.ShoppingCartEnabled)
+        {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.top-menu').on('mouseenter', '#topcartlink', function () {
+                        $('#flyout-cart').addClass('active');
+
+                    });
+                    $('.top-menu').on('mouseleave', '#topcartlink', function () {
+                        $('#flyout-cart').removeClass('active');
+
+                    });
+                    $('.top-menu').on('mouseenter', '#flyout-cart', function () {
+                        $('#flyout-cart').addClass('active');
+                    });
+                    $('.top-menu').on('mouseleave', '#flyout-cart', function () {
+                        $('#flyout-cart').removeClass('active');
+                    });
+                });
+            </script>
+        }
+
