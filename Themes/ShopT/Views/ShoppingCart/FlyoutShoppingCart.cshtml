@@ -1,0 +1,91 @@
+﻿@model MiniShoppingCartModel
+@using Nop.Web.Models.ShoppingCart;
+<div id="flyout-cart" class="flyout-cart">
+    <div class="mini-shopping-cart">
+        
+        <div class="count text-center">
+            @if (Model.TotalProducts == 0)
+            {
+                @T("ShoppingCart.Mini.NoItems")
+            }
+            else
+            {
+                @Html.Raw(string.Format(T("ShoppingCart.Mini.ItemsText").Text, string.Format("<a href=\"{0}\" class=\"items\">{1}</a>", Url.RouteUrl("ShoppingCart"), string.Format(T("ShoppingCart.Mini.Items").Text, Model.TotalProducts))))
+            }
+        </div>
+        <legend></legend>
+
+
+        @if (Model.TotalProducts > 0)
+        {
+
+            <div class="w100 miniCartTable scroll-pane mCustomScrollbar">
+                <table>
+                    <tbody>
+
+
+                        @for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            var item = Model.Items[i];
+                            <tr class="miniCartProduct">
+                                @if (Model.ShowProductImages)
+                                {
+                                    <td style="width:20%" class="miniCartProductThumb">
+                                        <div> <a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })" title="@item.Picture.Title"> <img alt="@item.Picture.AlternateText" src="@item.Picture.ImageUrl" title="@item.Picture.Title"> </a> </div>
+                                    </td>
+                                }
+                                <td style="width:40%">
+                                    <div class="miniCartDescription">
+                                        <h4> <a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })">@item.ProductName</a> </h4>
+                                        @if (!String.IsNullOrEmpty(item.AttributeInfo))
+                                        {
+                                            <span class="attributes">
+                                                @Html.Raw(item.AttributeInfo)
+                                            </span>
+                                        }
+                                        <div class="price"> <span>@item.UnitPrice</span> </div>
+                                    </div>
+                                </td>
+                                @*<td style="width:15%" class="miniCartSubtotal"><span> @item.UnitPrice </span></td>*@
+                                <td style="width:10%" class="miniCartQuantity"><a> X @item.Quantity </a></td>
+                                @*<td style="width:5%" class="delete"><a> x </a></td>*@
+                            </tr>
+
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!--/.miniCartTable-->
+
+            <div class="miniCartFooter text-right">
+                <h3 class="text-right subtotal">@T("ShoppingCart.Totals.SubTotal"): <strong>@Model.SubTotal</strong></h3>
+                @if (Model.DisplayShoppingCartButton)
+                {
+                    <a href="@(Url.RouteUrl("ShoppingCart"))" class="btn btn-sm btn-danger"> <i class="fa fa-shopping-cart"> </i> @T("ShoppingCart.Mini.ViewCart")</a>
+                }
+                @if (Model.DisplayCheckoutButton)
+                {
+                    var checkoutUrl = "";
+                    if (Model.AnonymousCheckoutAllowed && Model.CurrentCustomerIsGuest)
+                    {
+                        checkoutUrl = Url.RouteUrl("LoginCheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
+                    }
+                    else
+                    {
+                        checkoutUrl = Url.RouteUrl("Checkout");
+                    }
+                    <a href="@checkoutUrl" class="btn btn-sm btn-primary">@T("Checkout.Button")</a>
+                }
+                
+            </div>
+            <!--/.miniCartFooter-->
+
+           
+        }
+    </div>
+
+
+
+</div>
